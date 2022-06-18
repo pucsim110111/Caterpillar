@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Caterpillar"
         tools:targetApi="31">
+
         <activity
             android:name=".splash"
             android:exported="true"
@@ -25,9 +26,13 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.Caterpillar">
-
+            android:exported="true"
+            android:theme="@style/Theme.Caterpillar"
+            android:configChanges="orientation|keyboardHidden">
         </activity>
+        <activity
+            android:name=".game"
+            android:exported="false" />
     </application>
 
 </manifest>
