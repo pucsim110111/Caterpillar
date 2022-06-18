@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import android.view.Window
 import kotlinx.coroutines.*
 import pucsim4.caterpillar.databinding.ActivityGameBinding
 
@@ -15,7 +16,7 @@ class game : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //requestWindowFeature(Window.FEATURE_NO_TITLE)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_game)
         binding=ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -11,7 +11,8 @@ class MySurfaceView(context: Context?, attrs: AttributeSet?)
     : SurfaceView(context, attrs), SurfaceHolder.Callback {
     lateinit var surfaceHolder: SurfaceHolder
     lateinit var BG: Bitmap
-    //lateinit var SuperMan:Bitmap
+    var BGmoveX:Int = 0
+
 
     init {
         surfaceHolder = getHolder()
@@ -26,14 +27,26 @@ class MySurfaceView(context: Context?, attrs: AttributeSet?)
     }
 
     fun drawSomething(canvas:Canvas) {
+        BGmoveX =BGmoveX-5
         val res = context.resources
-        var BirdX:Int = res.displayMetrics.widthPixels  //讀取螢幕寬度
-        var BirdY:Int = res.displayMetrics.heightPixels
+        var w:Int = res.displayMetrics.widthPixels  //讀取螢幕寬度
+        var h:Int = res.displayMetrics.heightPixels
         var SrcRect:Rect = Rect(0, 0, BG.width, BG.height) //裁切
-        var w:Int = BirdX
-        var h:Int = BirdY
-        var DestRect:Rect = Rect(0, 0, w, h)
-        canvas.drawBitmap(BG, SrcRect, DestRect, null)
+        var DestRect:Rect = Rect(0, 0, w, h)//顯示的區域
+        //canvas.drawBitmap(BG, SrcRect, DestRect, null)
+        var BGnewX:Int = w + BGmoveX
+
+        if (BGnewX <= 0) {
+            BGmoveX = 0
+            // only need one draw
+            canvas.drawBitmap(BG, SrcRect, DestRect, null)
+        } else {
+            // need to draw original and wrap
+            DestRect= Rect(BGmoveX,0,BGmoveX+w,h)
+            canvas.drawBitmap(BG, SrcRect, DestRect, null)
+            DestRect=Rect(BGnewX,0,BGnewX+w,h)
+            canvas.drawBitmap(BG, SrcRect, DestRect, null)
+        }
     }
 
 

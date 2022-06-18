@@ -32,7 +32,7 @@
         <activity
             android:name=".game"
             android:screenOrientation="landscape"
-            android:exported="false" />
+            android:exported="false"/>
     </application>
 
 </manifest>
