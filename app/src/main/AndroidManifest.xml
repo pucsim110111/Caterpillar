@@ -27,11 +27,11 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Caterpillar"
-            android:configChanges="orientation|keyboardHidden">
+            android:theme="@style/Theme.Caterpillar">
         </activity>
         <activity
             android:name=".game"
+            android:screenOrientation="landscape"
             android:exported="false" />
     </application>
 

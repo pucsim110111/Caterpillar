@@ -1,6 +1,7 @@
 package pucsim4.caterpillar
 
 import android.content.Context
+import android.content.res.AssetManager
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.SurfaceHolder
@@ -17,13 +18,13 @@ class MySurfaceView(context: Context?, attrs: AttributeSet?)
         BG = BitmapFactory.decodeResource(getResources(), R.drawable.bg)
         surfaceHolder.addCallback(this)
     }
-
     override fun surfaceCreated(holder: SurfaceHolder) {
 
         var canvas: Canvas = surfaceHolder.lockCanvas()
         drawSomething(canvas)
         surfaceHolder.unlockCanvasAndPost(canvas)
     }
+
     fun drawSomething(canvas:Canvas) {
         val res = context.resources
         var BirdX:Int = res.displayMetrics.widthPixels  //讀取螢幕寬度
