@@ -65,13 +65,12 @@ class MySurfaceView(context: Context?, attrs: AttributeSet?)
         crawl.draw(canvas)
         enemy.draw(canvas)
     }
-
-
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
 
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
+
 
     }
 

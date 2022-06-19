@@ -14,6 +14,7 @@ class enemy(context: Context) {
     var h:Int
     var image: Bitmap
     var SrcRect: Rect
+    var speed:Int=20
     lateinit var DestRect: Rect
 
     init {
@@ -35,9 +36,10 @@ class enemy(context: Context) {
             count = 1
         }*/
 
-        BirdX -= 10
+        BirdX -= speed
         if (BirdX<=0){
             BirdX = res.displayMetrics.widthPixels - w
+            BirdY=(1..res.displayMetrics.heightPixels-h).random()
         }
     }
 

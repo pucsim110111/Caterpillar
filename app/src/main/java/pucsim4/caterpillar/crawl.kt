@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Rect
+import android.icu.text.Transliterator
 
 class crawl(context: Context) {
     val res = context.resources  //讀取資源
@@ -17,6 +18,8 @@ class crawl(context: Context) {
     lateinit var DestRect: Rect
     var count: Int = 1
     var shoot: Int = 0
+    lateinit var pos: Bitmap
+
 
     init {
         image = BitmapFactory.decodeResource(res, R.drawable.icecream)

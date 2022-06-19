@@ -2,21 +2,26 @@ package pucsim4.caterpillar
 
 import android.content.Intent
 import android.graphics.Canvas
+import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.Window
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import kotlinx.coroutines.*
 import pucsim4.caterpillar.databinding.ActivityGameBinding
 
-class game : AppCompatActivity() {
+class game : AppCompatActivity() ,View.OnTouchListener{
     lateinit var binding: ActivityGameBinding
     lateinit var job: Job
     lateinit var mysv : MySurfaceView
     var a:Int=0//控制返回鍵 0回首頁
+    //var score:Int=binding.mysv.Score
+    lateinit var builder:AlertDialog.Builder
 
     /*override fun onBackPressed() {
         val intent = Intent(this,MainActivity::class.java)
@@ -30,7 +35,8 @@ class game : AppCompatActivity() {
         binding=ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.start.isEnabled = true
-        var conut:Int = 0
+        binding.img1.setOnTouchListener(this)
+        builder=AlertDialog.Builder(this)
 
 
         binding.start.setOnClickListener(object:View.OnClickListener {
@@ -40,7 +46,6 @@ class game : AppCompatActivity() {
                         a=1
                         binding.mysv.Score=0
                         //conut++
-                        binding.score.text = conut.toString()
                         binding.start.isEnabled = false
                         binding.start.visibility = INVISIBLE
                         delay(25)
@@ -86,6 +91,27 @@ class game : AppCompatActivity() {
         if (binding.start.isEnabled == false){
             binding.resume.visibility=VISIBLE
         }
+    }
+
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        if (event?.action == MotionEvent.ACTION_MOVE){
+            v?.x = event.rawX - v!!.width/2
+            v?.y = event.rawY - v!!.height/2
+            var r1: Rect = Rect(v.x.toInt(), v.y.toInt(),v.x.toInt() + v.width, v.y.toInt() + v.height)
+            var r2: Rect = Rect(binding.mysv.enemy.BirdX, binding.mysv.enemy.BirdY, binding.mysv.enemy.BirdX +binding.mysv.enemy. w, binding.mysv.enemy.BirdY +binding.mysv.enemy. h)
+            if(r1.intersect(r2)) {
+                job.cancel()
+                val view=View.inflate(this@game,R.layout.dialog_view,null)
+                val builder= AlertDialog.Builder(this@game)
+                builder.setView(view)
+
+                val dialog=builder.create()
+                dialog.show()
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            }
+        }
+        return true
+
     }
 
 }
