@@ -15,7 +15,7 @@ class MySurfaceView(context: Context?, attrs: AttributeSet?)
     var BGmoveX:Int = 0
     var crawl:crawl
     var gDetector: GestureDetector
-    var score : Int = 0
+
     //var mper: MediaPlayer
 
     init {
@@ -35,9 +35,6 @@ class MySurfaceView(context: Context?, attrs: AttributeSet?)
 
     fun drawSomething(canvas:Canvas) {
         BGmoveX =BGmoveX-5
-        score++
-
-
         val res = context.resources
         var w:Int = res.displayMetrics.widthPixels  //讀取螢幕寬度
         var h:Int = res.displayMetrics.heightPixels

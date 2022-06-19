@@ -1,5 +1,6 @@
 package pucsim4.caterpillar
 
+import android.content.Intent
 import android.graphics.Canvas
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.Window
+import android.widget.Toast
 import kotlinx.coroutines.*
 import pucsim4.caterpillar.databinding.ActivityGameBinding
 
@@ -14,6 +16,12 @@ class game : AppCompatActivity() {
     lateinit var binding: ActivityGameBinding
     lateinit var job: Job
     lateinit var mysv : MySurfaceView
+    var a:Int=0
+
+    /*override fun onBackPressed() {
+        val intent = Intent(this,MainActivity::class.java)
+        startActivity(intent);
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,10 +32,12 @@ class game : AppCompatActivity() {
         binding.start.isEnabled = true
         var conut:Int = 0
 
+
         binding.start.setOnClickListener(object:View.OnClickListener {
             override fun onClick(p0: View?){
                 job= GlobalScope.launch(Dispatchers.Main) {
                     while(job.isActive) {
+                        a=1
                         conut++
                         binding.score.text = conut.toString()
                         binding.start.isEnabled = false
@@ -57,13 +67,26 @@ class game : AppCompatActivity() {
     }
     override fun onPause() {
         super.onPause()
-        job.cancel()
+        if(a==1) {
+            a=0
+            Toast.makeText(this, "結束遊戲", Toast.LENGTH_LONG).show();
+            job.cancel()
+            val intent = Intent(this,MainActivity::class.java)
+            startActivity(intent);
+
+        }else{
+            Toast.makeText(this, "結束遊戲", Toast.LENGTH_LONG).show();
+            val intent = Intent(this,MainActivity::class.java)
+            startActivity(intent);
+        }
     }
 
     override fun onResume() {
         super.onResume()
+        a=0
         if (binding.start.isEnabled == false){
             binding.resume.visibility=VISIBLE
         }
     }
+
 }
