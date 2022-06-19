@@ -1,23 +1,30 @@
 package pucsim4.caterpillar
 
 import android.content.Context
-import android.content.res.AssetManager
 import android.graphics.*
 import android.util.AttributeSet
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 
 class MySurfaceView(context: Context?, attrs: AttributeSet?)
-    : SurfaceView(context, attrs), SurfaceHolder.Callback {
+    : SurfaceView(context, attrs), SurfaceHolder.Callback,GestureDetector.OnGestureListener {
     lateinit var surfaceHolder: SurfaceHolder
     lateinit var BG: Bitmap
     var BGmoveX:Int = 0
-
+    var crawl:crawl
+    var gDetector: GestureDetector
+    var score : Int = 0
+    //var mper: MediaPlayer
 
     init {
         surfaceHolder = getHolder()
         BG = BitmapFactory.decodeResource(getResources(), R.drawable.bg)
         surfaceHolder.addCallback(this)
+        crawl = crawl(context!!)
+        gDetector = GestureDetector(context, this)
+        //mper = MediaPlayer()
     }
     override fun surfaceCreated(holder: SurfaceHolder) {
 
@@ -28,6 +35,9 @@ class MySurfaceView(context: Context?, attrs: AttributeSet?)
 
     fun drawSomething(canvas:Canvas) {
         BGmoveX =BGmoveX-5
+        score++
+
+
         val res = context.resources
         var w:Int = res.displayMetrics.widthPixels  //讀取螢幕寬度
         var h:Int = res.displayMetrics.heightPixels
@@ -47,6 +57,7 @@ class MySurfaceView(context: Context?, attrs: AttributeSet?)
             DestRect=Rect(BGnewX,0,BGnewX+w,h)
             canvas.drawBitmap(BG, SrcRect, DestRect, null)
         }
+        crawl.draw(canvas)
     }
 
 
@@ -56,5 +67,44 @@ class MySurfaceView(context: Context?, attrs: AttributeSet?)
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
 
+    }
+
+    override fun onDown(e: MotionEvent?): Boolean {
+        return true
+    }
+
+    override fun onShowPress(e: MotionEvent?) {
+        if(e!!.x>=0 && e!!.x<=crawl.w && e!!.y>=crawl.y && e!!.y<=crawl.y+crawl.w){
+            crawl.shoot = 1
+            //mper = MediaPlayer.create(context, R.raw.shoot)
+            //mper.start()
+        }
+    }
+
+    override fun onSingleTapUp(e: MotionEvent?): Boolean {
+        return true
+    }
+    override fun onScroll(
+        e1: MotionEvent?,
+        e2: MotionEvent?,
+        distanceX: Float,
+        distanceY: Float
+    ): Boolean {
+        crawl.y = e2!!.y.toInt() - crawl.h/2
+        return true
+    }
+    override fun onLongPress(e: MotionEvent?) {
+    }
+    override fun onFling(
+        e1: MotionEvent?,
+        e2: MotionEvent?,
+        velocityX: Float,
+        velocityY: Float
+    ): Boolean {
+        return true
+    }
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        gDetector.onTouchEvent(event)
+        return true
     }
 }

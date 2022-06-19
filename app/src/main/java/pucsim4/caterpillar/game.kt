@@ -13,6 +13,7 @@ import pucsim4.caterpillar.databinding.ActivityGameBinding
 class game : AppCompatActivity() {
     lateinit var binding: ActivityGameBinding
     lateinit var job: Job
+    lateinit var mysv : MySurfaceView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,14 +22,18 @@ class game : AppCompatActivity() {
         binding=ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.start.isEnabled = true
+        var conut:Int = 0
 
         binding.start.setOnClickListener(object:View.OnClickListener {
             override fun onClick(p0: View?){
                 job= GlobalScope.launch(Dispatchers.Main) {
                     while(job.isActive) {
+                        conut++
+                        binding.score.text = conut.toString()
                         binding.start.isEnabled = false
                         binding.start.visibility = INVISIBLE
                         delay(25)
+                        binding.mysv.crawl.update()
                         val canvas: Canvas = binding.mysv.holder.lockCanvas()
                         binding.mysv.drawSomething(canvas)
                         binding.mysv.holder.unlockCanvasAndPost(canvas)
