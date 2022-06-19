@@ -13,8 +13,10 @@ class MySurfaceView(context: Context?, attrs: AttributeSet?)
     lateinit var surfaceHolder: SurfaceHolder
     lateinit var BG: Bitmap
     var BGmoveX:Int = 0
+    var Score:Int = 0
     var crawl:crawl
     var gDetector: GestureDetector
+    lateinit var enemy: enemy
 
     //var mper: MediaPlayer
 
@@ -25,6 +27,7 @@ class MySurfaceView(context: Context?, attrs: AttributeSet?)
         crawl = crawl(context!!)
         gDetector = GestureDetector(context, this)
         //mper = MediaPlayer()
+        enemy= enemy(context!!)
     }
     override fun surfaceCreated(holder: SurfaceHolder) {
 
@@ -35,6 +38,7 @@ class MySurfaceView(context: Context?, attrs: AttributeSet?)
 
     fun drawSomething(canvas:Canvas) {
         BGmoveX =BGmoveX-5
+
         val res = context.resources
         var w:Int = res.displayMetrics.widthPixels  //讀取螢幕寬度
         var h:Int = res.displayMetrics.heightPixels
@@ -54,7 +58,12 @@ class MySurfaceView(context: Context?, attrs: AttributeSet?)
             DestRect=Rect(BGnewX,0,BGnewX+w,h)
             canvas.drawBitmap(BG, SrcRect, DestRect, null)
         }
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        paint.color = Color.BLACK
+        paint.textSize = 50f
+        canvas.drawText("Score:"+Score.toString(), w.toFloat()-250f,50f, paint)
         crawl.draw(canvas)
+        enemy.draw(canvas)
     }
 
 
@@ -73,6 +82,7 @@ class MySurfaceView(context: Context?, attrs: AttributeSet?)
     override fun onShowPress(e: MotionEvent?) {
         if(e!!.x>=0 && e!!.x<=crawl.w && e!!.y>=crawl.y && e!!.y<=crawl.y+crawl.w){
             crawl.shoot = 1
+            Score++
             //mper = MediaPlayer.create(context, R.raw.shoot)
             //mper.start()
         }
